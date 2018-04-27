@@ -9,6 +9,10 @@ public class CartItem {
     private String productDescription;
     private Double price;
     private String UOM;
+
+    public CartItem() {
+    }
+
     private String barCode;
 
 
