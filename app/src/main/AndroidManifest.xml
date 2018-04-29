@@ -29,7 +29,9 @@
         <activity
             android:name=".activity.CartActivity"
             android:label="@string/title_activity_cart"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activity.BaseActivity" />
+        <activity android:name=".activity.ViewOrdersActivity"></activity>
     </application>
 
 </manifest>

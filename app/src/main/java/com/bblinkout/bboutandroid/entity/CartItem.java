@@ -5,38 +5,37 @@ package com.bblinkout.bboutandroid.entity;
  */
 
 public class CartItem {
-    private String productName;
-    private String productDescription;
+    private String name;
+    private String description;
     private Double price;
     private String UOM;
+    private String barCode;
 
     public CartItem() {
     }
 
-    private String barCode;
-
-
-    public CartItem(String productName, String productDescription, Double price, String UOM) {
-        this.productName = productName;
-        this.productDescription = productDescription;
+    public CartItem(String name, String description, Double price, String UOM, String barCode) {
+        this.name = name;
+        this.description = description;
         this.price = price;
         this.UOM = UOM;
+        this.barCode = barCode;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getName() {
+        return name;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getProductDescription() {
-        return productDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setProductDescription(String productDescription) {
-        this.productDescription = productDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Double getPrice() {

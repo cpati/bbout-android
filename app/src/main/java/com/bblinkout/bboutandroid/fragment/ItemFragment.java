@@ -74,11 +74,11 @@ public class ItemFragment extends Fragment {
         Log.d(TAG,"onCreateView");
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
-        try {
+/*        try {
             callProductAPI();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-        }
+        }*/
 
         if (view instanceof RecyclerView) {
             Log.d(TAG,"onCreateView RecyclerView");
@@ -90,7 +90,7 @@ public class ItemFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
         }
-        setAdapter();
+        mListener.setAdapter(view);
         return view;
     }
 
@@ -116,6 +116,7 @@ public class ItemFragment extends Fragment {
 
     public interface OnListFragmentInteractionListener {
         void onListFragmentInteraction(CartItem cartItem);
+        void setAdapter(View view);
     }
 
     public void callProductAPI() throws UnsupportedEncodingException {
@@ -129,7 +130,7 @@ public class ItemFragment extends Fragment {
         //instance.addToRequestQueue(cartItemRequest(baseUrl,"url"));
         mCartItems=new ArrayList<CartItem>();
         for (int i = 0; i < 5; i++) {
-            mCartItems.add(new CartItem("Product"+i,"Product Desc"+i,100.00*i,"EA"));
+            mCartItems.add(new CartItem("Product"+i,"Product Desc"+i,100.00*i,"EA",String.valueOf(1111*i)));
         }
 
     }

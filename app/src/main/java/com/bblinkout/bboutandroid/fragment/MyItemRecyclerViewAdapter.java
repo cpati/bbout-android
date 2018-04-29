@@ -35,6 +35,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         mListener = listener;
     }
 
+
     @Override
     public MyItemRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -46,7 +47,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     public void onBindViewHolder(final MyItemRecyclerViewAdapter.ViewHolder holder, final int position) {
         Log.d(TAG,"BVH");
         holder.mCartItem = mCartItems.get(position);
-        holder.mProductNameView.setText(mCartItems.get(position).getProductName());
+        holder.mProductNameView.setText(mCartItems.get(position).getName());
         holder.mPriceView.setText(mCartItems.get(position).getPrice()+" "+mCartItems.get(position).getUOM());
         String[] items = new String[]{"1", "2", "3","4","5"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(holder.mView.getContext(), android.R.layout.simple_spinner_dropdown_item, items);
