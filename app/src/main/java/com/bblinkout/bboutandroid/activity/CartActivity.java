@@ -108,7 +108,7 @@ public class CartActivity extends BaseActivity
                     byte[] decodedString = Base64.decode(response.get("imageBlob").toString(), Base64.DEFAULT);
                     Bitmap productImage = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                     cartItem.setProductImage(productImage);
-                cartItems.add(cartItem);
+                    cartItems.add(cartItem);
                     myItemRecyclerViewAdapter.notifyDataSetChanged();
                     Toast.makeText(getApplicationContext(),response.get("name").toString(),Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
@@ -146,5 +146,11 @@ public class CartActivity extends BaseActivity
         myItemRecyclerViewAdapter=new MyItemRecyclerViewAdapter(cartItems,this);
         mRecyclerView = (RecyclerView) view;
         mRecyclerView.setAdapter(myItemRecyclerViewAdapter);
+    }
+
+    public void deleteItem(int position){
+        Log.d(TAG,String.valueOf(position));
+        cartItems.remove(position);
+        myItemRecyclerViewAdapter.notifyDataSetChanged();
     }
 }

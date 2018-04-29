@@ -7,7 +7,7 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="md_keylines">16dp</dimen>
-    <dimen name="avator_size">150dp</dimen>
+    <dimen name="avator_size">80dp</dimen>
     <dimen name="list_body">20sp</dimen>
     <dimen name="list_title">25sp</dimen>
     <dimen name="sub_text">17sp</dimen>

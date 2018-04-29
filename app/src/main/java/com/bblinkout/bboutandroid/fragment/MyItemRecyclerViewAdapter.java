@@ -63,13 +63,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mCartItem);
-                    Log.d("CPLog","setOnClickListener");
-                    Intent intent=new Intent(holder.mView.getContext(), CartActivity.class);
-                    //intent.putExtra("selectedItems",mProducts.get(position));
-                    holder.mView.getContext().startActivity(intent);
+                    Log.d(TAG,"setOnClickListener:"+position);
+                    mListener.deleteItem(position);
 
                 }
             }

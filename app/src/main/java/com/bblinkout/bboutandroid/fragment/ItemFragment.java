@@ -74,12 +74,6 @@ public class ItemFragment extends Fragment {
         Log.d(TAG,"onCreateView");
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
-/*        try {
-            callProductAPI();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }*/
-
         if (view instanceof RecyclerView) {
             Log.d(TAG,"onCreateView RecyclerView");
             Context context = view.getContext();
@@ -117,72 +111,7 @@ public class ItemFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         void onListFragmentInteraction(CartItem cartItem);
         void setAdapter(View view);
+        void deleteItem(int position);
     }
 
-    public void callProductAPI() throws UnsupportedEncodingException {
-        Log.d(TAG,"callProductAPI");
-        final RestClientQueue instance = RestClientQueue.getInstance(this.getContext());
-        //String url = "http://www.omdbapi.com/?i=tt0068646&apikey=a50b4852";
-        final String baseUrl = "http:localhost:6565";
-        /*String url = baseUrl+"&s="+ URLEncoder.encode(title,"UTF-8");
-        if(year !=null)
-            url+="&y="+URLEncoder.encode(year,"UTF-8");;*/
-        //instance.addToRequestQueue(cartItemRequest(baseUrl,"url"));
-        mCartItems=new ArrayList<CartItem>();
-        for (int i = 0; i < 5; i++) {
-            mCartItems.add(new CartItem("Product"+i,"Product Desc"+i,100.00*i,"EA",String.valueOf(1111*i)));
-        }
-
-    }
-
-    public JsonObjectRequest cartItemRequest(String baseUrl, String url){
-        final RestClientQueue instance = RestClientQueue.getInstance(this.getContext());
-        final String baseUrl1=baseUrl;
-        return new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>(){
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Gson gson=new Gson();
-                        CartItem cartItem=gson.fromJson(response.toString(),CartItem.class);
-
-                    }
-                },new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG,"Eroor is: "+ error.toString());
-
-                    }
-                });
-    }
-
-
-    public void setAdapter(){
-        Log.d(TAG,"setAdapter:"+recyclerView.toString());
-        recyclerView.setAdapter(new MyItemRecyclerViewAdapter(mCartItems, mListener));
-    }
-
-   /* public class ImageDownloadTask extends AsyncTask<CartItem,String,String> {
-        @Override
-        protected String doInBackground(CartItem... films) {
-            *//*Film film=films[0];
-            if (!film.Poster.equals("N/A")) {
-                Bitmap bmp = null;
-                try {
-                    Log.d("CPLog URL:", film.Poster);
-                    URL url = new URL(film.Poster);
-                    bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                    film.bitmapPoster = bmp;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }*//*
-            return "success";
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            setAdapter();
-        }
-    }*/
 }
