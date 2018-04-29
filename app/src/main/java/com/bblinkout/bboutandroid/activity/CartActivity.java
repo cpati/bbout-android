@@ -2,11 +2,14 @@ package com.bblinkout.bboutandroid.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +51,7 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class CartActivity extends BaseActivity
         implements  ItemFragment.OnListFragmentInteractionListener, ZXingScannerView.ResultHandler,View.OnClickListener{
-
+    private final String TAG="CP CartActivity";
     FragmentManager manager;
     private ZXingScannerView scannerView;
     private RestClientQueue restClientQueue;
@@ -102,7 +105,10 @@ public class CartActivity extends BaseActivity
                     cartItem.setName(response.get("name").toString());
                     cartItem.setDescription(response.get("description").toString());
                     cartItem.setPrice(response.getDouble("price"));
-                    cartItems.add(cartItem);
+                    byte[] decodedString = Base64.decode(response.get("imageBlob").toString(), Base64.DEFAULT);
+                    Bitmap productImage = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    cartItem.setProductImage(productImage);
+                cartItems.add(cartItem);
                     myItemRecyclerViewAdapter.notifyDataSetChanged();
                     Toast.makeText(getApplicationContext(),response.get("name").toString(),Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {

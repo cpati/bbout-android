@@ -1,5 +1,7 @@
 package com.bblinkout.bboutandroid.entity;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by chidanandapati on 4/22/18.
  */
@@ -10,6 +12,7 @@ public class CartItem {
     private Double price;
     private String UOM;
     private String barCode;
+    private Bitmap productImage;
 
     public CartItem() {
     }
@@ -60,5 +63,13 @@ public class CartItem {
 
     public void setBarCode(String barCode) {
         this.barCode = barCode;
+    }
+
+    public Bitmap getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(Bitmap productImage) {
+        this.productImage = productImage;
     }
 }

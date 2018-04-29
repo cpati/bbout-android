@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -53,6 +54,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(holder.mView.getContext(), android.R.layout.simple_spinner_dropdown_item, items);
         holder.mQuantityView.setAdapter(adapter);
         holder.mDeleteView.setText("Delete");
+        holder.mImageView.setImageBitmap(mCartItems.get(position).getProductImage());
         //holder.mImageView.setImageBitmap(mProducts.get(position).bitmapPoster);
 
 
@@ -86,7 +88,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         public final Spinner mQuantityView;
         //public final Button mDeleteView;
         public final Button mDeleteView;
-        //public final ImageView mImageView;
+        public final ImageView mImageView;
         public CartItem mCartItem;
 
         public ViewHolder(View view) {
@@ -96,6 +98,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             mPriceView = (TextView) view.findViewById(R.id.price);
             mQuantityView =view.findViewById(R.id.quantity);
             mDeleteView =view.findViewById(R.id.delete);
+            mImageView =view.findViewById(R.id.product_image);
 
         }
 
