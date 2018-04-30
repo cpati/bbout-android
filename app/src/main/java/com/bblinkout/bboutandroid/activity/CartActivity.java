@@ -93,7 +93,6 @@ public class CartActivity extends BaseActivity
 
     public void getProductInfo(String barcode)
     {
-        Toast.makeText(getApplicationContext(),"Barcode no:"+barcode,Toast.LENGTH_SHORT).show();
         String url=BaseUrl.BASE_URL+"/product/"+barcode+"/";
            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>()
@@ -102,15 +101,16 @@ public class CartActivity extends BaseActivity
             public void onResponse(JSONObject response) {
             try {
                     cartItem = new CartItem();
+                    cartItem.setId(Long.parseLong(response.get("id").toString()));
                     cartItem.setName(response.get("name").toString());
                     cartItem.setDescription(response.get("description").toString());
                     cartItem.setPrice(response.getDouble("price"));
+                    cartItem.setQuantity(1);
                     byte[] decodedString = Base64.decode(response.get("imageBlob").toString(), Base64.DEFAULT);
                     Bitmap productImage = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                     cartItem.setProductImage(productImage);
                     cartItems.add(cartItem);
                     myItemRecyclerViewAdapter.notifyDataSetChanged();
-                    Toast.makeText(getApplicationContext(),response.get("name").toString(),Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -129,7 +129,6 @@ public class CartActivity extends BaseActivity
     @Override
     public void handleResult(Result result) {
         String barcode=result.getText();
-        Toast.makeText(getApplicationContext(),barcode,Toast.LENGTH_LONG).show();
         barcode="AAAAAAAA";
         getProductInfo(barcode);
         drawer.removeViewAt(0);
@@ -152,5 +151,14 @@ public class CartActivity extends BaseActivity
         Log.d(TAG,String.valueOf(position));
         cartItems.remove(position);
         myItemRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    public void updateItem(Long id,int quantity){
+        Log.d(TAG,String.valueOf(id));
+        for(CartItem cartItem:cartItems){
+            if (id == cartItem.getId())
+                cartItem.setQuantity(quantity);
+        }
+        //myItemRecyclerViewAdapter.notifyDataSetChanged();
     }
 }

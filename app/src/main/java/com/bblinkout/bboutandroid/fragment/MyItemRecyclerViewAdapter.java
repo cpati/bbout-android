@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -48,18 +49,41 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     public void onBindViewHolder(final MyItemRecyclerViewAdapter.ViewHolder holder, final int position) {
         Log.d(TAG,"BVH");
         holder.mCartItem = mCartItems.get(position);
-        holder.mProductNameView.setText(mCartItems.get(position).getName());
-        holder.mPriceView.setText(mCartItems.get(position).getPrice()+" "+mCartItems.get(position).getUOM());
+        //holder.mProductNameView.setText(mCartItems.get(position).getName());
+        holder.mProductNameView.setText(String.valueOf(position));
+        holder.mProductIdView.setText(String.valueOf(holder.mCartItem.getId()));
+        holder.mPriceView.setText(mCartItems.get(position).getPrice()+" "+holder.mCartItem.getUOM());
         String[] items = new String[]{"1", "2", "3","4","5"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(holder.mView.getContext(), android.R.layout.simple_spinner_dropdown_item, items);
         holder.mQuantityView.setAdapter(adapter);
         holder.mDeleteView.setText("Delete");
-        holder.mImageView.setImageBitmap(mCartItems.get(position).getProductImage());
-        //holder.mImageView.setImageBitmap(mProducts.get(position).bitmapPoster);
+        holder.mImageView.setImageBitmap(holder.mCartItem.getProductImage());
+        holder.mQuantityView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            int selectedQty=Integer.valueOf(holder.mQuantityView.getSelectedItem().toString());
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView id=((View)view.getParent()).findViewById(R.id.product_id);
+                TextView name=((View)view.getParent()).findViewById(R.id.product_name);
+                Log.d(TAG,"name 11"+adapterView.getItemAtPosition(i).toString());
+                if (name != null){
+                    Log.d(TAG,"name "+name.getText().toString());
+                }
+                if (id !=null){
+                    Log.d(TAG,"Qyantity"+id.getText().toString());
+                    int updatedQty=Integer.valueOf(adapterView.getItemAtPosition(i).toString());
+                    mListener.updateItem(Long.parseLong(id.getText().toString()),updatedQty);
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
 
-
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+        holder.mDeleteView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
@@ -79,6 +103,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mProductNameView;
+        public final TextView mProductIdView;
         public final TextView mPriceView;
         public final Spinner mQuantityView;
         //public final Button mDeleteView;
@@ -90,6 +115,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             super(view);
             mView = view;
             mProductNameView = (TextView) view.findViewById(R.id.product_name);
+            mProductIdView = (TextView) view.findViewById(R.id.product_id);
             mPriceView = (TextView) view.findViewById(R.id.price);
             mQuantityView =view.findViewById(R.id.quantity);
             mDeleteView =view.findViewById(R.id.delete);

@@ -112,6 +112,7 @@ public class ItemFragment extends Fragment {
         void onListFragmentInteraction(CartItem cartItem);
         void setAdapter(View view);
         void deleteItem(int position);
+        void updateItem(Long id,int quantity);
     }
 
 }

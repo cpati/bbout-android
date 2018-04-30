@@ -7,8 +7,10 @@ import android.graphics.Bitmap;
  */
 
 public class CartItem {
+    private Long id;
     private String name;
     private String description;
+    private int Quantity;
     private Double price;
     private String UOM;
     private String barCode;
@@ -71,5 +73,21 @@ public class CartItem {
 
     public void setProductImage(Bitmap productImage) {
         this.productImage = productImage;
+    }
+
+    public int getQuantity() {
+        return Quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        Quantity = quantity;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
