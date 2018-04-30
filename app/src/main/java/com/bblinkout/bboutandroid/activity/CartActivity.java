@@ -1,51 +1,37 @@
 package com.bblinkout.bboutandroid.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.bblinkout.bboutandroid.R;
 import com.bblinkout.bboutandroid.entity.CartItem;
+import com.bblinkout.bboutandroid.entity.OrderSummary;
+import com.bblinkout.bboutandroid.entity.Product;
+import com.bblinkout.bboutandroid.entity.SalesOrder;
 import com.bblinkout.bboutandroid.fragment.ItemFragment;
-import com.bblinkout.bboutandroid.fragment.MyItemRecyclerViewAdapter;
-import com.bblinkout.bboutandroid.fragment.OrderRecyclerViewAdapter;
-import com.bblinkout.bboutandroid.util.BaseUrl;
+import com.bblinkout.bboutandroid.fragment.ItemRecyclerViewAdapter;
+import com.bblinkout.bboutandroid.util.BBConstants;
 import com.bblinkout.bboutandroid.util.RestClientQueue;
-import com.google.gson.JsonObject;
 import com.google.zxing.Result;
-import org.json.JSONArray;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -57,9 +43,9 @@ public class CartActivity extends BaseActivity
     private RestClientQueue restClientQueue;
     RequestQueue requestQueue;
     CartItem cartItem;
-    List<CartItem> cartItems=new ArrayList<>();
+    ArrayList<CartItem> cartItems=new ArrayList<>();
     private RecyclerView mRecyclerView;
-    private MyItemRecyclerViewAdapter myItemRecyclerViewAdapter;
+    private ItemRecyclerViewAdapter myItemRecyclerViewAdapter;
     View cartView;
 
     @Override
@@ -71,11 +57,13 @@ public class CartActivity extends BaseActivity
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
-        FloatingActionButton placeOrder = (FloatingActionButton) findViewById(R.id.place_order);
-        placeOrder.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton proceedCheckout = (FloatingActionButton) findViewById(R.id.proceed_checkout);
+        proceedCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SalesOrder salesOrder=createOrder();
                 Intent intent=new Intent(getApplicationContext(),OrderConfirmationActivity.class);
+                intent.putExtra(BBConstants.SALES_ORDER,salesOrder);
                 startActivity(intent);
             }
         });
@@ -86,6 +74,17 @@ public class CartActivity extends BaseActivity
                 .replace(R.id.container, itemFragment, "Cartitem")
                 .commit();
         setTitle("Shopping cart");
+    }
+
+    private SalesOrder createOrder() {
+        SalesOrder salesOrder=new SalesOrder();
+        salesOrder.setUserId(1L);
+        List<Product> products=new ArrayList<>();
+        for(CartItem cartItem:cartItems){
+            products.add(new Product(cartItem.getId(),cartItem.getName(),cartItem.getDescription(),cartItem.getPrice(),cartItem.getQuantity(),cartItem.getBarCode()));
+        }
+        salesOrder.setProducts(products);
+        return salesOrder;
     }
 
     public void onClick(View view) {
@@ -100,7 +99,7 @@ public class CartActivity extends BaseActivity
 
     public void getProductInfo(String barcode)
     {
-        String url=BaseUrl.BASE_URL+"/product/"+barcode+"/";
+        String url= BBConstants.BASE_URL+"/product/"+barcode+"/";
            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>()
                 {
@@ -149,7 +148,7 @@ public class CartActivity extends BaseActivity
     }
 
     public void setAdapter(View view) {
-        myItemRecyclerViewAdapter=new MyItemRecyclerViewAdapter(cartItems,this);
+        myItemRecyclerViewAdapter=new ItemRecyclerViewAdapter(cartItems,this);
         mRecyclerView = (RecyclerView) view;
         mRecyclerView.setAdapter(myItemRecyclerViewAdapter);
     }

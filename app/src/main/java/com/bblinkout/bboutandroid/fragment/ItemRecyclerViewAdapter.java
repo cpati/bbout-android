@@ -1,6 +1,5 @@
 package com.bblinkout.bboutandroid.fragment;
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bblinkout.bboutandroid.R;
-import com.bblinkout.bboutandroid.activity.CartActivity;
 import com.bblinkout.bboutandroid.entity.CartItem;
 import com.bblinkout.bboutandroid.fragment.ItemFragment.OnListFragmentInteractionListener;
 import com.bblinkout.bboutandroid.fragment.dummy.DummyContent.DummyItem;
@@ -26,32 +24,32 @@ import java.util.List;
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
+public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerViewAdapter.ViewHolder> {
 
     private final String TAG="CP MymovieRecyclerViewA";
     private final List<CartItem> mCartItems;
     private final ItemFragment.OnListFragmentInteractionListener mListener;
 
-    public MyItemRecyclerViewAdapter(List<CartItem> products, ItemFragment.OnListFragmentInteractionListener listener) {
+    public ItemRecyclerViewAdapter(List<CartItem> products, ItemFragment.OnListFragmentInteractionListener listener) {
         mCartItems=products;
         mListener = listener;
     }
 
 
     @Override
-    public MyItemRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ItemRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_item, parent, false);
-        return new MyItemRecyclerViewAdapter.ViewHolder(view);
+        return new ItemRecyclerViewAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final MyItemRecyclerViewAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ItemRecyclerViewAdapter.ViewHolder holder, final int position) {
         Log.d(TAG,"BVH");
         holder.mCartItem = mCartItems.get(position);
-        //holder.mProductNameView.setText(mCartItems.get(position).getName());
-        holder.mProductNameView.setText(String.valueOf(position));
-        holder.mProductIdView.setText(String.valueOf(holder.mCartItem.getId()));
+        holder.mProductNameView.setText(mCartItems.get(position).getName());
+        //holder.mProductNameView.setText(String.valueOf(position));
+        //holder.mProductIdView.setText(String.valueOf(holder.mCartItem.getId()));
         holder.mPriceView.setText(mCartItems.get(position).getPrice()+" "+holder.mCartItem.getUOM());
         String[] items = new String[]{"1", "2", "3","4","5"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(holder.mView.getContext(), android.R.layout.simple_spinner_dropdown_item, items);

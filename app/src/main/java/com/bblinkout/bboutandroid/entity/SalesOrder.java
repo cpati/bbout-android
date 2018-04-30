@@ -1,17 +1,19 @@
 package com.bblinkout.bboutandroid.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class SalesOrder {
+public class SalesOrder implements Serializable{
     private Long orderId;
-    private List products;
+    private Long userId;
+    private List<Product> products;
     private String orderTotal;
 
     public SalesOrder() {
 
     }
 
-    public SalesOrder(Long orderId, List products, String orderTotal) {
+    public SalesOrder(Long orderId, List<Product> products, String orderTotal) {
         this.orderId = orderId;
         this.products = products;
         this.orderTotal = orderTotal;
@@ -25,11 +27,19 @@ public class SalesOrder {
         this.orderId = orderId;
     }
 
-    public List getProducts() {
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public List<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(List products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 

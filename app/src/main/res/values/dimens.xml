@@ -13,4 +13,8 @@
     <dimen name="sub_text">17sp</dimen>
     <dimen name="field_lable">16sp</dimen>
     <dimen name="field_value">20sp</dimen>
+    <dimen name="section_header">25sp</dimen>
+    <dimen name="label_width">0.5</dimen>
+    <dimen name="value_width">0.5</dimen>
+    <dimen name="padding_value">10dp</dimen>
 </resources>

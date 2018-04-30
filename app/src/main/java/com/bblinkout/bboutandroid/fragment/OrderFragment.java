@@ -17,7 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.bblinkout.bboutandroid.R;
 import com.bblinkout.bboutandroid.entity.SalesOrder;
-import com.bblinkout.bboutandroid.util.BaseUrl;
+import com.bblinkout.bboutandroid.util.BBConstants;
 import com.bblinkout.bboutandroid.util.RestClientQueue;
 
 import org.json.JSONArray;
@@ -129,7 +129,7 @@ public class OrderFragment extends Fragment {
     {
         final RestClientQueue instance = RestClientQueue.getInstance(this.getContext());
         mOrders=new ArrayList<>();
-        String url= BaseUrl.BASE_URL+"/order/";
+        String url= BBConstants.BASE_URL+"/order/";
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>()
                 {

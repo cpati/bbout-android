@@ -2,11 +2,13 @@ package com.bblinkout.bboutandroid.entity;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
+
 /**
  * Created by chidanandapati on 4/22/18.
  */
 
-public class CartItem {
+public class CartItem{
     private Long id;
     private String name;
     private String description;
