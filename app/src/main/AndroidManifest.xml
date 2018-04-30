@@ -31,7 +31,13 @@
             android:label="@string/title_activity_cart"
             android:theme="@style/AppTheme" />
         <activity android:name=".activity.BaseActivity" />
-        <activity android:name=".activity.ViewOrdersActivity"></activity>
+        <activity android:name=".activity.ViewOrdersActivity" />
+        <activity android:name=".activity.OrderConfirmationActivity"
+            android:parentActivityName=".activity.CartActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.CartActivity" />
+        </activity>
     </application>
 
 </manifest>

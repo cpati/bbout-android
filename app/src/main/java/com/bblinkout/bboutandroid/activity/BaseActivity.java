@@ -10,16 +10,18 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.bblinkout.bboutandroid.R;
 
 public class BaseActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener{
     DrawerLayout drawer;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -30,6 +32,7 @@ public class BaseActivity extends AppCompatActivity implements  NavigationView.O
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -38,6 +41,10 @@ public class BaseActivity extends AppCompatActivity implements  NavigationView.O
         } else {
             super.onBackPressed();
         }
+    }
+
+    public void dafaultBackPressed() {
+            super.onBackPressed();
     }
 
     @Override

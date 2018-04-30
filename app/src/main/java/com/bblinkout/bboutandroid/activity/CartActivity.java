@@ -71,7 +71,14 @@ public class CartActivity extends BaseActivity
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
-
+        FloatingActionButton placeOrder = (FloatingActionButton) findViewById(R.id.place_order);
+        placeOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getApplicationContext(),OrderConfirmationActivity.class);
+                startActivity(intent);
+            }
+        });
         ItemFragment itemFragment=new ItemFragment();
 
         manager = getSupportFragmentManager();
