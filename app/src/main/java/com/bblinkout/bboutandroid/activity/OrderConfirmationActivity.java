@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -37,7 +38,9 @@ import org.json.JSONObject;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OrderConfirmationActivity extends BaseActivity {
     private final String TAG="CP OrderConfirmation";
@@ -87,24 +90,12 @@ public class OrderConfirmationActivity extends BaseActivity {
 
     public void placeOrder(View view){
         Log.d(TAG,"placeOrder");
+        JSONObject salesOrderJSON=null;
         try {
-            JSONObject jsonObj = new JSONObject();
-            jsonObj.put("name", "chida");
-            jsonObj.put("surname", "pati");
-            Log.d(TAG,"chida"+jsonObj.toString());
-            Log.d(TAG,"chida"+(new GsonBuilder().setPrettyPrinting().create()).toJson(jsonObj));
-        }catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        JSONObject salesOrderJSON = new JSONObject();
-        try {
-            salesOrderJSON.put("OrderDetail",salesOrder);
-            JSONObject salesOrderJSON1 = new JSONObject(salesOrderJSON.toString());
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            Log.d(TAG,salesOrderJSON1.toString());
-            Log.d(TAG,gson.toJson(salesOrderJSON1));
+            salesOrderJSON = new JSONObject(gson.toJson(salesOrder));
+            Log.d(TAG,salesOrderJSON.toString());
+            Log.d(TAG,gson.toJson(salesOrderJSON));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -131,32 +122,22 @@ public class OrderConfirmationActivity extends BaseActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG,"create order erro:"+error.getMessage());
-            }
-        });
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, salesOrder,
-//                new Response.Listener<JSONObject>()
-//                {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        try {
-//                            Log.d(TAG,"create order:"+response.get("orderId").toString());
-//                            String smsString="Order Number:"+salesOrder.getOrderId()+" "+
-//                                    "No of Products:"+salesOrder.getProducts().size() +" "+
-//                                    "Order Total:"+salesOrder.getOrderTotal() ;
-//                            sendSMS(smsString);
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//
-//            }
-//        });
+                try{
+                    Log.d(TAG,"create order erro:"+new String(error.networkResponse.data,"UTF-8"));
+                }catch (Exception e){
 
-                requestQueue.add(jsonObjectRequest);
+                }
+                error.printStackTrace();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                return params;
+            }
+        };
+        requestQueue.add(jsonObjectRequest);
     }
 
     public void sendSMS(String message){

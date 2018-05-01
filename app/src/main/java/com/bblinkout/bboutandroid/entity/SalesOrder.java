@@ -13,8 +13,9 @@ public class SalesOrder implements Serializable{
 
     }
 
-    public SalesOrder(Long orderId, List<Product> products, String orderTotal) {
+    public SalesOrder(Long orderId, Long userId, List<Product> products, String orderTotal) {
         this.orderId = orderId;
+        this.userId = userId;
         this.products = products;
         this.orderTotal = orderTotal;
     }
