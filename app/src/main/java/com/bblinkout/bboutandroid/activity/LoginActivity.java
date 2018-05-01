@@ -1,5 +1,6 @@
 package com.bblinkout.bboutandroid.activity;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -9,14 +10,19 @@ import android.content.Loader;
 import android.content.CursorLoader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -26,6 +32,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bblinkout.bboutandroid.R;
 
@@ -35,7 +42,7 @@ import java.util.List;
 import static android.Manifest.permission.READ_CONTACTS;
 
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
-
+    private final String TAG = "CP LoginActivity";
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -60,6 +67,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
     TextView signupBtn;
     Button loginButton;
+    LocationManager locationManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +76,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        signupBtn =(TextView) findViewById(R.id.signup);
-        loginButton =(Button) findViewById(R.id.login);
+        signupBtn = (TextView) findViewById(R.id.signup);
+        loginButton = (Button) findViewById(R.id.login);
         populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -110,6 +119,33 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 startActivity(intent);
             }
         });
+
+        locationManager = (LocationManager) this.getSystemService(getApplicationContext().LOCATION_SERVICE);
+        LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                Toast.makeText(LoginActivity.this, "current location:"+Math.round(location.getLatitude()) + ":" + Math.round(location.getLongitude()), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }
+        };
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        }
+
     }
 
     private void populateAutoComplete() {
