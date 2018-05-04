@@ -8,6 +8,8 @@ public class SalesOrder implements Serializable{
     private Long userId;
     private List<Product> products;
     private String orderTotal;
+    private String totalProducts;
+    private String orderDate;
 
     public SalesOrder() {
 
@@ -51,4 +53,20 @@ public class SalesOrder implements Serializable{
     public void setOrderTotal(String orderTotal) {
         this.orderTotal = orderTotal;
     }
+
+    public String getTotalProducts() {
+        return totalProducts;
+    }
+
+    public void setTotalProducts(String totalProducts) {
+        this.totalProducts = totalProducts;
+    }
+    public String getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
+    }
+
 }
