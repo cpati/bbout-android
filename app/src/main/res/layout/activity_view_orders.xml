@@ -10,6 +10,8 @@
     <FrameLayout
         android:id="@+id/view_orders_container"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:layout_marginLeft="15sp"
+        android:layout_marginRight="15sp">
     </FrameLayout>
 </android.support.constraint.ConstraintLayout>
