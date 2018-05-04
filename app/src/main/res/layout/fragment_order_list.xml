@@ -6,8 +6,11 @@
     android:name="com.bblinkout.bboutandroid.fragment.OrderFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginTop="70dp"
+    android:background="#37f8f4f4"
+    android:clipChildren="false"
+    android:paddingBottom="5dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".fragment.OrderFragment"
-    tools:listitem="@layout/fragment_order" />
+    tools:foreground="@color/colorWhite"
+    tools:listitem="@layout/cardview_order" />
