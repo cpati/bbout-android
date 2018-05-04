@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.bblinkout.bboutandroid.R;
+import com.bblinkout.bboutandroid.entity.Product;
 import com.bblinkout.bboutandroid.entity.SalesOrder;
 import com.bblinkout.bboutandroid.util.BBConstants;
 import com.bblinkout.bboutandroid.util.RestClientQueue;
@@ -24,7 +25,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -141,6 +145,12 @@ public class OrderFragment extends Fragment {
                                 SalesOrder order = new SalesOrder();
                                 order.setOrderId(Long.parseLong(value.get("orderId").toString()));
                                 order.setOrderTotal(value.get("orderTotal").toString());
+                                DateFormat dateFormat = new SimpleDateFormat("dd-MMM-YYYY");
+                                Date date = new Date();
+                                System.out.println(dateFormat.format(date));
+                                order.setOrderDate(dateFormat.format(date));
+                                JSONArray list= (JSONArray) value.get("products");
+                                order.setTotalProducts(String.valueOf(list.length()));
                                 mOrders.add(order);
                             }
 
