@@ -131,9 +131,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 2, this);
         }
         if (locationManager != null) {
-            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            /*location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             Log.d(TAG,"location:"+String.valueOf(location.getLatitude())+String.valueOf(location.getLongitude()));
-            Toast.makeText(this,String.valueOf(location.getLatitude())+String.valueOf(location.getLongitude()),Toast.LENGTH_LONG);
+            Toast.makeText(this,String.valueOf(location.getLatitude())+String.valueOf(location.getLongitude()),Toast.LENGTH_LONG);*/
         }
     }
 
