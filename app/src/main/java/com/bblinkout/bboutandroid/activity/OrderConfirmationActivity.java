@@ -123,7 +123,7 @@ public class OrderConfirmationActivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 try{
-                    Log.d(TAG,"create order erro:"+new String(error.networkResponse.data,"UTF-8"));
+                    Log.d(TAG,"create order error:"+new String(error.networkResponse.data,"UTF-8"));
                 }catch (Exception e){
 
                 }

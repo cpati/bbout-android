@@ -9,6 +9,8 @@ public class Product implements Serializable{
     private Double price;
     private int Quantity;
     private String barCode;
+    private String imageBlob;
+
 
     public Product(Long id, String name, String description, Double price, int quantity, String barCode) {
         this.id = id;
@@ -65,5 +67,13 @@ public class Product implements Serializable{
 
     public void setBarCode(String barCode) {
         this.barCode = barCode;
+    }
+
+    public String getImageBlob() {
+        return imageBlob;
+    }
+
+    public void setImageBlob(String imageBlob) {
+        this.imageBlob = imageBlob;
     }
 }
