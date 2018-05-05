@@ -1,6 +1,7 @@
 package com.bblinkout.bboutandroid.fragment;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,15 +34,19 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_order, parent, false);
-        return new ViewHolder(view);
+                    .inflate(R.layout.cardview_order, parent, false);
+
+            return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(String.valueOf(mValues.get(position).getOrderId()));
-        holder.mContentView.setText(mValues.get(position).getOrderTotal());
+        holder.mOrderIdLblView.setText("Order #");
+        holder.mOrderIdView.setText(mValues.get(position).getOrderId().toString());
+        holder.mOrderDate.setText(mValues.get(position).getOrderDate().toString());
+        holder.mTotalProductsView.setText(mValues.get(position).getTotalProducts());
+        holder.mOrderTotalView.setText("$ "+mValues.get(position).getOrderTotal());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,21 +66,30 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
+        public  View mView;
+        public  TextView mOrderIdLblView;
+        public  TextView mOrderIdView;
+        public  TextView mOrderDate;
+        public  TextView mTotalProductsView;
+        public  TextView mOrderTotalView;
         public SalesOrder mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mOrderIdLblView = (TextView) view.findViewById(R.id.order_number_label);
+            mOrderIdView = (TextView) view.findViewById(R.id.order_number);
+            mOrderDate = (TextView) view.findViewById(R.id.order_date);
+            mTotalProductsView = (TextView) view.findViewById(R.id.total_products);
+            mOrderTotalView = (TextView) view.findViewById(R.id.order_total);
+
+
+
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mOrderTotalView.getText() + "'";
         }
     }
 
