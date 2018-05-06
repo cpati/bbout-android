@@ -14,9 +14,10 @@ import android.view.View;
 
 import com.bblinkout.bboutandroid.R;
 
-public class BaseActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener{
+public class BaseActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawer;
     Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +29,7 @@ public class BaseActivity extends AppCompatActivity implements  NavigationView.O
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -44,7 +46,7 @@ public class BaseActivity extends AppCompatActivity implements  NavigationView.O
     }
 
     public void dafaultBackPressed() {
-            super.onBackPressed();
+        super.onBackPressed();
     }
 
     @Override
@@ -76,23 +78,34 @@ public class BaseActivity extends AppCompatActivity implements  NavigationView.O
         int id = item.getItemId();
 
         if (id == R.id.shopping_cart) {
-            Intent intent=new Intent(this,CartActivity.class);
+            Intent intent = new Intent(this, CartActivity.class);
             startActivity(intent);
         } else if (id == R.id.view_orders) {
-            Intent intent=new Intent(this,ViewOrdersActivity.class);
+            Intent intent = new Intent(this, ViewOrdersActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_slideshow) {
+        }
+//        else if (id == R.id.nav_slideshow) {}
 
-        } else if (id == R.id.nav_manage) {
+        else if (id == R.id.nav_manage) {
+            Intent intent = new Intent(this, PaymentUserDetailsActivity.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_about) {
+            Intent intent = new Intent(this, AboutFeedback.class);
+            startActivity(intent);
+
+        }
+        else if (id == R.id.nav_logout) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+            return true;
+        }
     }
-}
+
+

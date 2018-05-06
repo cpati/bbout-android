@@ -89,6 +89,8 @@ public class SignupActivity extends AppCompatActivity {
 
     public void onSignupSuccess() {
         signup.setEnabled(true);
+        Toast pass = Toast.makeText(SignupActivity.this, "Successfully signed up!", Toast.LENGTH_SHORT);
+        pass.show();
 
     }
 

@@ -21,4 +21,42 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+
+    <!--String for payment Details-->
+    <string name="CardNumber">Card Number</string>
+    <string name="Save">Save Details</string>
+    <string name="NameonCard">Name on Card</string>
+    <string name="CVV">CVV</string>
+    <string name="ExpiryMonth">Expiry Month</string>
+    <string name="ExpiryYear">Expiry Year</string>
+    <string name="SavethisCardforfasterpayment">Save this Card for faster payment</string>
+    <string name="Last3digitsprintedonthebackofthecard">Last 3 digits printed on the back of the card</string>
+    <string name="EnteryourCardNumber">Enter your Card Number</string>
+    <string name="EnterNameonCard">Enter Name on Card</string>
+    <string name="EnterCVV">Enter CVV</string>
+
+    <string-array name="month">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
+    <string-array name="year">
+        <item>2016</item>
+        <item>2017</item>
+        <item>2018</item>
+        <item>2019</item>
+        <item>2020</item>
+
+    </string-array>
 </resources>

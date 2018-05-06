@@ -36,6 +36,8 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".activity.BaseActivity" />
         <activity android:name=".activity.ViewOrdersActivity" />
+        <activity android:name=".activity.AboutFeedback" />
+        <activity android:name=".activity.PaymentUserDetailsActivity" />
         <activity android:name=".activity.OrderConfirmationActivity"
             android:parentActivityName=".activity.CartActivity" >
             <meta-data
