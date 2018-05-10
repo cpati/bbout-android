@@ -145,7 +145,7 @@ public class OrderFragment extends Fragment {
                                 SalesOrder order = new SalesOrder();
                                 order.setOrderId(Long.parseLong(value.get("orderId").toString()));
                                 order.setOrderTotal(value.get("orderTotal").toString());
-                                DateFormat dateFormat = new SimpleDateFormat("dd-MMM-YYYY");
+                                DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
                                 Date date = new Date();
                                 System.out.println(dateFormat.format(date));
                                 order.setOrderDate(dateFormat.format(date));
