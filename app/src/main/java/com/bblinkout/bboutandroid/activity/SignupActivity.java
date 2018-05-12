@@ -2,6 +2,7 @@ package com.bblinkout.bboutandroid.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -43,6 +44,16 @@ public class SignupActivity extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences preferences = getSharedPreferences("MYPREFS",MODE_PRIVATE);
+                String newUser  = name.getText().toString();
+                String newPassword = password.getText().toString();
+                String newEmail = email.getText().toString();
+                String newaddress = address.getText().toString();
+
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(newEmail + newPassword +"data", newEmail +"/n" + newUser);
+                editor.commit();
+
                 signup();
             }
         });
