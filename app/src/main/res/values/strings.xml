@@ -61,5 +61,6 @@
     </string-array>
     <string name="title_activity_order_status">OrderStatus</string>
     <string name="order_placed_message">Order Placed Successfully!</string>
+    <string name="title_activity_location_change">LocationChange</string>
 
 </resources>
