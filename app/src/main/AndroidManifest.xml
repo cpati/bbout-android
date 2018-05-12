@@ -10,7 +10,8 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-feature android:name="android.hardware.location.gps"/>
+
+    <uses-feature android:name="android.hardware.location.gps" />
 
     <application
         android:allowBackup="true"
@@ -38,8 +39,9 @@
         <activity android:name=".activity.ViewOrdersActivity" />
         <activity android:name=".activity.AboutFeedback" />
         <activity android:name=".activity.PaymentUserDetailsActivity" />
-        <activity android:name=".activity.OrderConfirmationActivity"
-            android:parentActivityName=".activity.CartActivity" >
+        <activity
+            android:name=".activity.OrderConfirmationActivity"
+            android:parentActivityName=".activity.CartActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.CartActivity" />
@@ -47,6 +49,10 @@
         <activity
             android:name=".activity.OrderStatus"
             android:label="@string/title_activity_order_status"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".LocationChange"
+            android:label="@string/title_activity_location_change"
             android:theme="@style/AppTheme"></activity>
     </application>
 
