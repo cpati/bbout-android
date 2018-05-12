@@ -114,6 +114,11 @@ public class OrderConfirmationActivity extends BaseActivity {
                                     "No of Products:"+salesOrder.getProducts().size() +" "+
                                     "Order Total:"+salesOrder.getOrderTotal() ;
                             sendSMS(smsString);
+                    Intent intent=new Intent(getApplicationContext(),OrderStatus.class);
+                    intent.putExtra("orderId",response.get("orderId").toString());
+                    startActivity(intent);
+
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
