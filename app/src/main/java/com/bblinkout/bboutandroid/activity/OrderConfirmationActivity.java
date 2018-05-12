@@ -117,8 +117,7 @@ public class OrderConfirmationActivity extends BaseActivity {
                     Intent intent=new Intent(getApplicationContext(),OrderStatus.class);
                     intent.putExtra("orderId",response.get("orderId").toString());
                     startActivity(intent);
-
-
+                            CartActivity.isOrderPlaced=true;
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

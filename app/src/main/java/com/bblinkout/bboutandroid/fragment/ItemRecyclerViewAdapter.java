@@ -50,12 +50,15 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerVi
         holder.mProductNameView.setText(mCartItems.get(position).getName());
         //holder.mProductNameView.setText(String.valueOf(position));
         //holder.mProductIdView.setText(String.valueOf(holder.mCartItem.getId()));
-        holder.mPriceView.setText(mCartItems.get(position).getPrice()+" "+holder.mCartItem.getUOM());
+        holder.mPriceView.setText(mCartItems.get(position).getPrice().toString());
+
         String[] items = new String[]{"1", "2", "3","4","5"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(holder.mView.getContext(), android.R.layout.simple_spinner_dropdown_item, items);
         holder.mQuantityView.setAdapter(adapter);
+
         holder.mDeleteView.setText("Delete");
         holder.mImageView.setImageBitmap(holder.mCartItem.getProductImage());
+
         holder.mQuantityView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             int selectedQty=Integer.valueOf(holder.mQuantityView.getSelectedItem().toString());
             @Override
