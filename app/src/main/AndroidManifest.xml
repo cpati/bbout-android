@@ -44,6 +44,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.CartActivity" />
         </activity>
+        <activity
+            android:name=".activity.OrderStatus"
+            android:label="@string/title_activity_order_status"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
