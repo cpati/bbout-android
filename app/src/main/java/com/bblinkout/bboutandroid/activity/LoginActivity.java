@@ -36,7 +36,9 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bblinkout.bboutandroid.LocationChange;
 import com.bblinkout.bboutandroid.R;
+import com.bblinkout.bboutandroid.util.BBConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,6 +143,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             /*location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             Log.d(TAG,"location:"+String.valueOf(location.getLatitude())+String.valueOf(location.getLongitude()));
             Toast.makeText(this,String.valueOf(location.getLatitude())+String.valueOf(location.getLongitude()),Toast.LENGTH_LONG);*/
+            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            String longitude = String.valueOf(location.getLongitude());
+            String latitude = String.valueOf(location.getLatitude());
+            Log.d("Clima", "longitude is:" + longitude);
+            Log.d("Clima", "latitude is:" + latitude);
+            final double lat = Double.parseDouble(latitude);
+            final double lon = Double.parseDouble(longitude);
+
+
+            loginButton.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    attemptLogin();
+                    String url= BBConstants.BASE_URL+"/store/"+"/1";
+                    if (lat == 37.391 && lon == -121.982) {
+                        Intent a = new Intent(LoginActivity.this, CartActivity.class);
+                        startActivity(a);
+
+
+
+                    }
+                    Intent i = new Intent(LoginActivity.this, LocationChange.class);
+                    startActivity(i);
+                }
+            });
         }
     }
 
