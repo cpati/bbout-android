@@ -59,4 +59,7 @@
         <item>2020</item>
 
     </string-array>
+    <string name="title_activity_order_status">OrderStatus</string>
+    <string name="order_placed_message">Order Placed Successfully!</string>
+
 </resources>
