@@ -9,6 +9,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.CursorLoader;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Location;
@@ -111,6 +112,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             @Override
             public void onClick(View v) {
+                String newemail = mEmailView.getText().toString();
+                String password = mPasswordView.getText().toString();
+                SharedPreferences preferences = getSharedPreferences("MYPREFS", MODE_PRIVATE);
+                String userDetails = preferences.getString( newemail + password + "data","No information on that user.");
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.commit();
                 attemptLogin();
             }
         });
