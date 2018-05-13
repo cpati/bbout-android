@@ -28,27 +28,27 @@
             android:layout_height="match_parent">
 
 
-                <TextView
-                    android:id="@+id/tx_cardNo"
-                    android:layout_width="159dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignStart="@+id/chk_Save"
-                    android:layout_marginTop="67dp"
-                    android:text="@string/CardNumber" />
+            <TextView
+                android:id="@+id/tx_cardNo"
+                android:layout_width="159dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/chk_Save"
+                android:layout_marginTop="67dp"
+                android:text="@string/CardNumber" />
 
-                <EditText
-                    android:id="@+id/tx_inputCardNo"
-                    android:layout_width="341dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="93dp"
-                    android:drawableLeft="@drawable/ic_payment"
-                    android:ems="10"
-                    android:hint="Enter your Card Number"
-                    android:inputType="textPersonName"
-                    android:text="996916578" />
+            <EditText
+                android:id="@+id/tx_inputCardNo"
+                android:layout_width="341dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="93dp"
+                android:drawableLeft="@drawable/ic_payment"
+                android:ems="10"
+                android:hint="Enter your Card Number"
+                android:inputType="textPersonName"
+                android:text="996916578" />
 
             <Button
                 android:id="@+id/btn_Pay"
@@ -69,39 +69,50 @@
                 android:layout_marginTop="151dp"
                 android:text="@string/NameonCard" />
 
-            <TextView
-                android:id="@+id/tx_Month"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_alignStart="@+id/tx_cardNo"
-                android:layout_marginTop="245dp"
-                android:text="@string/ExpiryMonth" />
+                android:orientation="vertical">
 
-            <Spinner
-                android:id="@+id/spn_month"
-                android:layout_width="81dp"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/tx_cardNo"
-                android:layout_centerVertical="true">
 
-            </Spinner>
+                <TextView
+                    android:id="@+id/tx_Month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="43dp"
+                    android:layout_marginTop="249dp"
+                    android:text="@string/ExpiryMonth" />
+
+                <Spinner
+                    android:id="@+id/spn_month"
+                    android:layout_width="81dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/tx_Month"
+                    android:layout_marginEnd="139dp">
+
+                </Spinner>
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/tx_Year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/chk_Save"
-                android:layout_alignTop="@+id/tx_Month"
+                android:layout_alignStart="@+id/tx_cardNo"
+                android:layout_centerVertical="true"
                 android:text="@string/ExpiryYear" />
 
             <Spinner
                 android:id="@+id/spn_year"
                 android:layout_width="122dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignTop="@+id/spn_month"
-                android:layout_marginEnd="110dp">
+                android:layout_alignEnd="@+id/chk_Save"
+                android:layout_centerVertical="true">
 
             </Spinner>
 

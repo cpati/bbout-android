@@ -149,6 +149,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         locationCheck();
     }
 
+
+
     private void locationCheck(){
         locationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

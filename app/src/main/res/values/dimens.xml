@@ -9,7 +9,7 @@
     <dimen name="md_keylines">16dp</dimen>
     <dimen name="avator_size">80dp</dimen>
     <dimen name="list_body">20sp</dimen>
-    <dimen name="list_title">25sp</dimen>
+    <dimen name="list_title">20sp</dimen>
     <dimen name="sub_text">17sp</dimen>
     <dimen name="field_lable">16sp</dimen>
     <dimen name="field_value">20sp</dimen>

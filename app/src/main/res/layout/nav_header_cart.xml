@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="BBlink Out"
+        android:textColor="#000000"
         android:textSize="18sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 

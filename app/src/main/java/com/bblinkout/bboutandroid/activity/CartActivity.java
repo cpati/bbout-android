@@ -120,6 +120,7 @@ public class CartActivity extends BaseActivity
         drawer.addView(scannerView, 0);
         scannerView.startCamera();
 
+
     }
 
     public void getProductInfo(String barcode) {
