@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bblinkout.bboutandroid.R;
+import com.bblinkout.bboutandroid.util.BBConstants;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawer;
@@ -73,7 +74,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.clear_cart) {
+            Intent broadcastIntent=new Intent(BBConstants.BROADCAST_NOTIFICATION);
+            sendBroadcast(broadcastIntent);
             return true;
         }
 

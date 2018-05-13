@@ -1,6 +1,9 @@
 package com.bblinkout.bboutandroid.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -50,6 +53,8 @@ import io.reactivex.schedulers.Schedulers;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import ua.naiksoftware.stomp.Stomp;
 import ua.naiksoftware.stomp.client.StompClient;
+
+import static com.bblinkout.bboutandroid.util.BBConstants.BROADCAST_NOTIFICATION;
 
 public class CartActivity extends BaseActivity
         implements ItemFragment.OnListFragmentInteractionListener, ZXingScannerView.ResultHandler, View.OnClickListener {
@@ -105,6 +110,8 @@ public class CartActivity extends BaseActivity
     protected void onResume() {
         super.onResume();
         connectStomp();
+        registerReceiver(receiver, new IntentFilter(
+                BROADCAST_NOTIFICATION));
     }
 
     @Override
@@ -316,6 +323,41 @@ public class CartActivity extends BaseActivity
         requestQueue.add(jsonObjectRequest);
     }
 
+    // Get Order for Shopping Cart when multiple users are present
+    public void deleteOrder(Long orderId) {
+        final RestClientQueue instance = RestClientQueue.getInstance(getApplicationContext());
+        String url = BBConstants.BASE_URL + "/order/lineitem/" + orderId;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, "successfully deleted");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "error deletion:"+error.getMessage());
+            }
+        });
+        instance.addToRequestQueue(jsonObjectRequest);
+
+    }
+
+
+    private BroadcastReceiver receiver=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(TAG,"Broadcast Received");
+            clearCart();
+        }
+    };
+
+    private void clearCart(){
+        cartItems.clear();
+        deleteOrder(shoppingCartOrderId);
+        myItemRecyclerViewAdapter.notifyDataSetChanged();
+        sendEchoViaStomp();
+    }
     // Web Socket Connection
     // Stomp Client
     public void connectStomp() {
