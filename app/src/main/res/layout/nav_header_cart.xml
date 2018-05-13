@@ -13,15 +13,20 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="69dp"
+        android:layout_height="90dp"
+        app:srcCompat="@drawable/cart" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="BBlink Out"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#000000"
-        android:textSize="18sp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textSize="18sp" />
 
 
 </LinearLayout>
