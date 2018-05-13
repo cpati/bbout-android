@@ -6,4 +6,5 @@ public class BBConstants {
     public static final String BASE_WS_URL ="ws://default-environment.64dhghmhih.us-east-2.elasticbeanstalk.com/bbserver-websocket";
     public static final String SALES_ORDER="sales_order";
     public static final String PHONE_NUMBER="+16508636094";
+    public static final String BROADCAST_NOTIFICATION="clear_cart";
 }
