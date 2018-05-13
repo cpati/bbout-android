@@ -19,13 +19,13 @@ public class OrderStatus extends BaseActivity {
         orderStatusView=this.getLayoutInflater().inflate(R.layout.activity_order_status,null, true);
         drawer.addView(orderStatusView, 0);
         setTitle("Order Status");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        /*getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dafaultBackPressed();
             }
-        });
+        });*/
         TextView orderNo = (TextView)findViewById(R.id.order_num);
         TextView message = (TextView)findViewById(R.id.order_confirm);
         message.setText( getString(R.string.order_placed_message));

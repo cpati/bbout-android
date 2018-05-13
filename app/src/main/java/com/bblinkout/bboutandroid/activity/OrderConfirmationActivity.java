@@ -43,16 +43,17 @@ import java.util.List;
 import java.util.Map;
 
 public class OrderConfirmationActivity extends BaseActivity {
-    private final String TAG="CP OrderConfirmation";
+    private final String TAG = "CP OrderConfirmation";
     View orderConfirmationView;
-    TextView orderSubtotalView,orderTaxView,orderTotalView;
+    TextView orderSubtotalView, orderTaxView, orderTotalView;
     RequestQueue requestQueue;
     private RestClientQueue restClientQueue;
     SalesOrder salesOrder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        orderConfirmationView=this.getLayoutInflater().inflate(R.layout.activity_order_confirmation,null, true);
+        orderConfirmationView = this.getLayoutInflater().inflate(R.layout.activity_order_confirmation, null, true);
         drawer.addView(orderConfirmationView, 0);
         setTitle("Order Confirmation");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -63,77 +64,77 @@ public class OrderConfirmationActivity extends BaseActivity {
             }
         });
 
-        orderSubtotalView=findViewById(R.id.order_subtotal);
-        orderTaxView=findViewById(R.id.order_tax);
-        orderTotalView=findViewById(R.id.order_total);
+        orderSubtotalView = findViewById(R.id.order_subtotal);
+        orderTaxView = findViewById(R.id.order_tax);
+        orderTotalView = findViewById(R.id.order_total);
         Intent intent = getIntent();
-        salesOrder=(SalesOrder)intent.getSerializableExtra(BBConstants.SALES_ORDER);
-        for(Product product:salesOrder.getProducts()){
-            Log.d(TAG,product.getName());
+        salesOrder = (SalesOrder) intent.getSerializableExtra(BBConstants.SALES_ORDER);
+        for (Product product : salesOrder.getProducts()) {
+            Log.d(TAG, product.getName());
         }
-        OrderSummary orderSummary=calculateOrder(salesOrder.getProducts());
+        OrderSummary orderSummary = calculateOrder(salesOrder.getProducts());
         orderSubtotalView.setText(String.valueOf(orderSummary.getOrderSubTotal()));
         orderTaxView.setText(String.valueOf(orderSummary.getOrderTax()));
         orderTotalView.setText(String.valueOf(orderSummary.getOrderTotal()));
     }
 
     private OrderSummary calculateOrder(List<Product> products) {
-        Double orderSubtotal=0.0,orderTax=0.0,orderTotal=0.0;
-        for (Product product:products){
-            orderSubtotal+=product.getQuantity()*product.getPrice();
+        Double orderSubtotal = 0.0, orderTax = 0.0, orderTotal = 0.0;
+        for (Product product : products) {
+            orderSubtotal += product.getQuantity() * product.getPrice();
         }
-        orderTax=orderSubtotal*8.75/100;
-        orderTotal=orderSubtotal+orderTax;
-        return new OrderSummary(orderSubtotal,orderTax,orderTotal);
+        orderTax = orderSubtotal * 8.75 / 100;
+        orderTotal = orderSubtotal + orderTax;
+        return new OrderSummary(orderSubtotal, orderTax, orderTotal);
     }
 
 
-    public void placeOrder(View view){
-        Log.d(TAG,"placeOrder");
-        JSONObject salesOrderJSON=null;
+    public void placeOrder(View view) {
+        Log.d(TAG, "placeOrder");
+        JSONObject salesOrderJSON = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             salesOrderJSON = new JSONObject(gson.toJson(salesOrder));
-            Log.d(TAG,salesOrderJSON.toString());
-            Log.d(TAG,gson.toJson(salesOrderJSON));
+            Log.d(TAG, salesOrderJSON.toString());
+            Log.d(TAG, gson.toJson(salesOrderJSON));
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
 
-        restClientQueue=RestClientQueue.getInstance(this);
+        restClientQueue = RestClientQueue.getInstance(this);
         requestQueue = restClientQueue.getRequestQueue();
-        Toast.makeText(this,"Order Placed",Toast.LENGTH_LONG);
-        String url= BBConstants.BASE_URL+"order/";
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, salesOrderJSON, new Response.Listener<JSONObject>(){
+        Toast.makeText(this, "Order Placed", Toast.LENGTH_LONG);
+        String url = BBConstants.BASE_URL + "order/";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, salesOrderJSON, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                            Log.d(TAG,"create order:"+response.get("orderId").toString());
-                            String smsString="Order Number:"+salesOrder.getOrderId()+" "+
-                                    "No of Products:"+salesOrder.getProducts().size() +" "+
-                                    "Order Total:"+salesOrder.getOrderTotal() ;
-                            sendSMS(smsString);
-                    Intent intent=new Intent(getApplicationContext(),OrderStatus.class);
-                    intent.putExtra("orderId",response.get("orderId").toString());
+                    Log.d(TAG, "create order:" + response.get("orderId").toString());
+                    String smsString = "Order Number:" + salesOrder.getOrderId() + " " +
+                            "No of Products:" + salesOrder.getProducts().size() + " " +
+                            "Order Total:" + salesOrder.getOrderTotal();
+                    sendSMS(smsString);
+                    Intent intent = new Intent(getApplicationContext(), OrderStatus.class);
+                    intent.putExtra("orderId", response.get("orderId").toString());
                     startActivity(intent);
-                            CartActivity.isOrderPlaced=true;
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    CartActivity.isOrderPlaced = true;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-        },new Response.ErrorListener(){
+        }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                try{
-                    Log.d(TAG,"create order error:"+new String(error.networkResponse.data,"UTF-8"));
-                }catch (Exception e){
+                try {
+                    Log.d(TAG, "create order error:" + new String(error.networkResponse.data, "UTF-8"));
+                } catch (Exception e) {
 
                 }
                 error.printStackTrace();
             }
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
@@ -144,7 +145,7 @@ public class OrderConfirmationActivity extends BaseActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
-    public void sendSMS(String message){
+    public void sendSMS(String message) {
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage(BBConstants.PHONE_NUMBER, null, message, null, null);
         Toast.makeText(getApplicationContext(), "SMS sent.",

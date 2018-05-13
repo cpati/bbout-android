@@ -70,6 +70,7 @@ public class CartActivity extends BaseActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG,"onCreate");
         super.onCreate(savedInstanceState);
         cartView = this.getLayoutInflater().inflate(R.layout.activity_cart, null, true);
         drawer.addView(cartView, 0);
@@ -82,9 +83,11 @@ public class CartActivity extends BaseActivity
             @Override
             public void onClick(View view) {
                 SalesOrder salesOrder = createOrder();
-                Intent intent = new Intent(getApplicationContext(), OrderConfirmationActivity.class);
-                intent.putExtra(BBConstants.SALES_ORDER, salesOrder);
-                startActivity(intent);
+                if (cartItems.size() >0) {
+                    Intent intent = new Intent(getApplicationContext(), OrderConfirmationActivity.class);
+                    intent.putExtra(BBConstants.SALES_ORDER, salesOrder);
+                    startActivity(intent);
+                }
             }
         });
         ItemFragment itemFragment = new ItemFragment();

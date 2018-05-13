@@ -4,7 +4,6 @@ import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.LoaderManager;
 import android.app.Service;
 import android.content.Intent;
 import android.content.Loader;
@@ -36,10 +35,18 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bblinkout.bboutandroid.LocationChange;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.bblinkout.bboutandroid.R;
+import com.bblinkout.bboutandroid.entity.Store;
 import com.bblinkout.bboutandroid.util.BBConstants;
+import com.bblinkout.bboutandroid.util.RestClientQueue;
 
+import org.json.JSONObject;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +60,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REQUEST_READ_CONTACTS = 0;
     private final int REQUEST_LOCATION = 200;
     private Location location;
+    private Store store;
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -132,7 +140,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 startActivity(intent);
             }
         });
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getStoresDetails();
+        locationCheck();
+    }
+
+    private void locationCheck(){
         locationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(LoginActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
@@ -151,22 +168,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             final double lat = Double.parseDouble(latitude);
             final double lon = Double.parseDouble(longitude);
 
-
             loginButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
                     attemptLogin();
-                    String url= BBConstants.BASE_URL+"/store/"+"/1";
-                    if (lat == 37.391 && lon == -121.982) {
-                        Intent a = new Intent(LoginActivity.this, CartActivity.class);
-                        startActivity(a);
+                    DecimalFormat df=new DecimalFormat("#.##");
+                    Log.d("Clima 1", "longitude is:" + lon +":"+store.getStoreCordinatesLong());
+                    Log.d("Clima 1", "latitude is:" + lat +":"+store.getStoreCordinatesLat());
 
-
-
+                    if (df.format(lat).equals(df.format(store.getStoreCordinatesLat())) && df.format(lon).equals(df.format(store.getStoreCordinatesLong()))) {
+                        BaseActivity.vendorName=store.getStoreName();
+                        Intent intent = new Intent(LoginActivity.this, CartActivity.class);
+                        startActivity(intent);
+                    } else{
+                        Intent intent = new Intent(LoginActivity.this, LocationChangeActivity.class);
+                        startActivity(intent);
                     }
-                    Intent i = new Intent(LoginActivity.this, LocationChange.class);
-                    startActivity(i);
+
                 }
             });
         }
@@ -435,5 +454,37 @@ private interface ProfileQuery {
             showProgress(false);
         }
     }
+
+    //Get Stores detail
+    public void getStoresDetails() {
+        final RestClientQueue instance = RestClientQueue.getInstance(getApplicationContext());
+        String url = BBConstants.BASE_URL + "/store/1";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        store=new Store();
+                        try{
+                            store.setId(response.getLong("id"));
+                            store.setStoreName(response.getString("storeName"));
+                            store.setStoreDescription(response.getString("storeDescription"));
+                            store.setStoreAddress(response.getString("storeAddress"));
+                            store.setStoreCordinatesLat(response.getDouble("storeCordinatesLat"));
+                            store.setStoreCordinatesLong(response.getDouble("storeCordinatesLong"));
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        instance.addToRequestQueue(jsonObjectRequest);
+
+    }
+
 }
 

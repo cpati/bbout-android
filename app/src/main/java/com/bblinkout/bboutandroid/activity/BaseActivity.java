@@ -11,12 +11,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.bblinkout.bboutandroid.R;
 
-public class BaseActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener {
+public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawer;
     Toolbar toolbar;
+    public static String vendorName;
+    TextView vendornameTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,11 @@ public class BaseActivity extends AppCompatActivity implements  NavigationView.O
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (vendorName !=null){
+            vendornameTextView=findViewById(R.id.vendor_name);
+            vendornameTextView.setText(vendorName);
+        }
     }
 
 
@@ -95,17 +103,16 @@ public class BaseActivity extends AppCompatActivity implements  NavigationView.O
             Intent intent = new Intent(this, AboutFeedback.class);
             startActivity(intent);
 
-        }
-        else if (id == R.id.nav_logout) {
+        } else if (id == R.id.nav_logout) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
 
         }
 
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            drawer.closeDrawer(GravityCompat.START);
-            return true;
-        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
+}
 
 
