@@ -76,7 +76,7 @@ public class CartActivity extends BaseActivity
         cartView = this.getLayoutInflater().inflate(R.layout.activity_cart, null, true);
         drawer.addView(cartView, 0);
         restClientQueue = RestClientQueue.getInstance(this);
-
+        scannerView = new ZXingScannerView(CartActivity.this);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
         FloatingActionButton proceedCheckout = (FloatingActionButton) findViewById(R.id.proceed_checkout);
@@ -113,9 +113,15 @@ public class CartActivity extends BaseActivity
         disconnectStomp();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        scannerView.stopCamera();
+    }
+
     //Bar Code Scanning
     public void onClick(View view) {
-        scannerView = new ZXingScannerView(CartActivity.this);
+
         requestQueue = restClientQueue.getRequestQueue();
         scannerView.setResultHandler(this);
         drawer.removeViewAt(0);
