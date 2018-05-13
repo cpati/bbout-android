@@ -60,7 +60,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REQUEST_READ_CONTACTS = 0;
     private final int REQUEST_LOCATION = 200;
     private Location location;
-    private Store store;
+    private Store store=null;
+    SharedPreferences preferences;
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -90,6 +91,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
+        preferences = getSharedPreferences("MYPREFS",MODE_PRIVATE);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         signupBtn = (TextView) findViewById(R.id.signup);
         loginButton = (Button) findViewById(R.id.login);
@@ -118,17 +120,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
+        getStoresDetails();
+
         loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 String newemail = mEmailView.getText().toString();
                 String password = mPasswordView.getText().toString();
-                SharedPreferences preferences = getSharedPreferences("MYPREFS", MODE_PRIVATE);
-                String userDetails = preferences.getString( newemail + password + "data","No information on that user.");
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.commit();
                 attemptLogin();
+                locationCheck();
             }
         });
 
@@ -145,8 +146,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onResume() {
         super.onResume();
-        getStoresDetails();
-        locationCheck();
+    }
+
+    private void checkCredential(){
+        String username = preferences.getString("username","");
+        String password = preferences.getString("password","");
+        if ( (username != null && username!="") && (password != null && password!="")){
+            mEmailView.setText(username);
+            mPasswordView.setText(password);
+            loginButton.performClick();
+        }
     }
 
     private void locationCheck(){
@@ -163,31 +172,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             String longitude = String.valueOf(location.getLongitude());
             String latitude = String.valueOf(location.getLatitude());
-            Log.d("Clima", "longitude is:" + longitude);
-            Log.d("Clima", "latitude is:" + latitude);
+            Log.d(TAG, "longitude is:" + longitude);
+            Log.d(TAG, "latitude is:" + latitude);
             final double lat = Double.parseDouble(latitude);
             final double lon = Double.parseDouble(longitude);
+            Log.d(TAG,store.getStoreCordinatesLong().toString());
+            DecimalFormat df=new DecimalFormat("#.##");
+            Log.d(TAG, "longitude is:" + lon +":"+store.getStoreCordinatesLong());
+            Log.d(TAG, "latitude is:" + lat +":"+store.getStoreCordinatesLat());
 
-            loginButton.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    attemptLogin();
-                    DecimalFormat df=new DecimalFormat("#.##");
-                    Log.d("Clima 1", "longitude is:" + lon +":"+store.getStoreCordinatesLong());
-                    Log.d("Clima 1", "latitude is:" + lat +":"+store.getStoreCordinatesLat());
-
-                    if (df.format(lat).equals(df.format(store.getStoreCordinatesLat())) && df.format(lon).equals(df.format(store.getStoreCordinatesLong()))) {
-                        BaseActivity.vendorName=store.getStoreName();
-                        Intent intent = new Intent(LoginActivity.this, CartActivity.class);
-                        startActivity(intent);
-                    } else{
-                        Intent intent = new Intent(LoginActivity.this, LocationChangeActivity.class);
-                        startActivity(intent);
-                    }
-
-                }
-            });
+            if (df.format(lat).equals(df.format(store.getStoreCordinatesLat())) && df.format(lon).equals(df.format(store.getStoreCordinatesLong()))) {
+                BaseActivity.vendorName=store.getStoreName();
+                Intent intent = new Intent(LoginActivity.this, CartActivity.class);
+                startActivity(intent);
+            } else{
+                Intent intent = new Intent(LoginActivity.this, LocationChangeActivity.class);
+                startActivity(intent);
+            }
         }
     }
 
@@ -271,6 +272,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("username",email);
+            editor.putString("password",password);
+            editor.commit();
             Intent intent = new Intent(getApplicationContext(),CartActivity.class);
             startActivity(intent);
             finish();
@@ -471,6 +476,7 @@ private interface ProfileQuery {
                             store.setStoreAddress(response.getString("storeAddress"));
                             store.setStoreCordinatesLat(response.getDouble("storeCordinatesLat"));
                             store.setStoreCordinatesLong(response.getDouble("storeCordinatesLong"));
+                            checkCredential();
                         }catch (Exception e){
                             e.printStackTrace();
                         }
