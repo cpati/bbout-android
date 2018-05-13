@@ -26,11 +26,11 @@ public class LocationChangeActivity extends AppCompatActivity {
         setTitle("Store Not Found");
         textView=findViewById(R.id.location_text);
         refresh=findViewById(R.id.refresh);
-        textView.setText("There is no registered store at your current location, please click refresh or relaunch app when at a registered store.");
+        textView.setText("There is no registered store at your current location, please click refresh or relaunch app when you are at a registered store.");
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
+                Intent intent=new Intent(LocationChangeActivity.this,LoginActivity.class);
                 startActivity(intent);
             }
         });

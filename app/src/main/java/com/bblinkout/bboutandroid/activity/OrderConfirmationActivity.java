@@ -36,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,6 +50,8 @@ public class OrderConfirmationActivity extends BaseActivity {
     RequestQueue requestQueue;
     private RestClientQueue restClientQueue;
     SalesOrder salesOrder;
+    Long userId = 1L;
+    Long shoppingCartOrderId = userId * -999;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +118,7 @@ public class OrderConfirmationActivity extends BaseActivity {
                             "No of Products:" + salesOrder.getProducts().size() + " " +
                             "Order Total:" + salesOrder.getOrderTotal();
                     sendSMS(smsString);
+                    deleteOrder(shoppingCartOrderId);
                     Intent intent = new Intent(getApplicationContext(), OrderStatus.class);
                     intent.putExtra("orderId", response.get("orderId").toString());
                     startActivity(intent);
@@ -150,6 +154,26 @@ public class OrderConfirmationActivity extends BaseActivity {
         smsManager.sendTextMessage(BBConstants.PHONE_NUMBER, null, message, null, null);
         Toast.makeText(getApplicationContext(), "SMS sent.",
                 Toast.LENGTH_LONG).show();
+    }
+
+    // Get Order for Shopping Cart when multiple users are present
+    public void deleteOrder(Long orderId) {
+        final RestClientQueue instance = RestClientQueue.getInstance(getApplicationContext());
+        String url = BBConstants.BASE_URL + "/order/lineitem/" + orderId;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, "successfully deleted");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "error deletion:"+error.getMessage());
+            }
+        });
+        instance.addToRequestQueue(jsonObjectRequest);
+
     }
 
 }

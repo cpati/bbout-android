@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
@@ -97,6 +98,7 @@ public class CartActivity extends BaseActivity
                 .replace(R.id.container, itemFragment, "Cartitem")
                 .commit();
         setTitle("Shopping cart");
+        getOrder(shoppingCartOrderId);
     }
 
     @Override
@@ -139,7 +141,7 @@ public class CartActivity extends BaseActivity
                             byte[] decodedString = Base64.decode(response.get("imageBlob").toString(), Base64.DEFAULT);
                             Bitmap productImage = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                             cartItem.setProductImage(productImage);
-                            tempCartItems.add(cartItem);
+                            cartItems.add(cartItem);
                             placeOrder(shoppingCartOrderId);
                             sendEchoViaStomp();
                             //myItemRecyclerViewAdapter.notifyDataSetChanged();
@@ -161,7 +163,6 @@ public class CartActivity extends BaseActivity
     @Override
     public void handleResult(Result result) {
         String barcode = result.getText();
-        barcode = "AAAAAAAA";
         getProductInfo(barcode);
         drawer.removeViewAt(0);
         drawer.addView(cartView, 0);
@@ -201,7 +202,7 @@ public class CartActivity extends BaseActivity
             salesOrder.setOrderId(orderId);
         salesOrder.setUserId(userId);
         List<Product> products = new ArrayList<>();
-        for (CartItem cartItem : tempCartItems) {
+        for (CartItem cartItem : cartItems) {
             products.add(new Product(cartItem.getId(), cartItem.getName(), cartItem.getDescription(), cartItem.getPrice(), cartItem.getQuantity(), cartItem.getBarCode()));
         }
         salesOrder.setProducts(products);

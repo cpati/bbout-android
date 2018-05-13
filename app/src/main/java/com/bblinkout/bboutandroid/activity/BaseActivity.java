@@ -1,6 +1,7 @@
 package com.bblinkout.bboutandroid.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -106,6 +107,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_logout) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+            SharedPreferences preferences = getSharedPreferences("MYPREFS",MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("username","");
+            editor.putString("password","");
+            editor.commit();
 
         }
 

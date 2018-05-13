@@ -50,9 +50,9 @@ public class SignupActivity extends AppCompatActivity {
                 String newEmail = email.getText().toString();
                 String newaddress = address.getText().toString();
 
-                SharedPreferences.Editor editor = preferences.edit();
+                /*SharedPreferences.Editor editor = preferences.edit();
                 editor.putString(newEmail + newPassword +"data", newEmail +"/n" + newUser);
-                editor.commit();
+                editor.commit();*/
 
                 signup();
             }
