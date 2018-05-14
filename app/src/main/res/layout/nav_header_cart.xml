@@ -15,7 +15,7 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="69dp"
+        android:layout_width="80dp"
         android:layout_height="90dp"
         app:srcCompat="@drawable/cart" />
 
