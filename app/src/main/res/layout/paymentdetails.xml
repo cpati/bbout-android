@@ -48,7 +48,7 @@
                 android:ems="10"
                 android:hint="Enter your Card Number"
                 android:inputType="textPersonName"
-                android:text="" />
+                android:text="9969165789" />
 
             <Button
                 android:id="@+id/btn_Pay"
@@ -148,7 +148,7 @@
                 android:ems="10"
                 android:hint="Enter Name on Card"
                 android:inputType="textPersonName"
-                android:text="" />
+                android:text="Supreetha Ganapathi" />
 
             <TextView
                 android:id="@+id/tx_CCVMessage"
@@ -170,7 +170,7 @@
                 android:ems="10"
                 android:hint="@string/EnterCVV"
                 android:inputType="numberPassword"
-                android:text="" />
+                android:text="123" />
 
 
 
